@@ -1,0 +1,6 @@
+{
+  "name": "Casio SK-1 Multitrack Step Sequencer",
+  "description": "Authentic Casio SK-1 replica synthesizer and sampler audio engine driven by a multitrack step sequencer with 8-bit PCM DSP modeling, envelope shapes, harmonic synthesis, and live sampling.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
