@@ -131,8 +131,15 @@ export const SK1Header: React.FC = () => {
             </button>
 
             {/* Tempo BPM Controls */}
-            <div className="flex items-center gap-1.5 bg-neutral-900 px-3 py-1.5 rounded border border-neutral-800 ml-2">
-              <span className="font-mono text-[10px] uppercase text-neutral-400">BPM</span>
+            <div className="flex items-center gap-1 bg-neutral-900 px-2.5 py-1.5 rounded border border-neutral-800 ml-2">
+              <span className="font-mono text-[10px] uppercase text-neutral-400 mr-1">BPM</span>
+              <button
+                id="sk1-bpm-down-10"
+                onClick={() => setBpm(bpm - 10)}
+                className="w-7 h-5 flex items-center justify-center bg-neutral-800 hover:bg-neutral-700 rounded text-neutral-300 font-mono text-[10px]"
+              >
+                -10
+              </button>
               <button
                 id="sk1-bpm-down"
                 onClick={() => setBpm(bpm - 1)}
@@ -147,7 +154,7 @@ export const SK1Header: React.FC = () => {
                 min={40}
                 max={240}
                 onChange={(e) => setBpm(parseInt(e.target.value, 10) || 110)}
-                className="w-12 bg-neutral-950 text-center font-mono font-bold text-orange-400 text-xs py-0.5 rounded border border-neutral-800 focus:outline-none focus:border-orange-500"
+                className="w-12 bg-neutral-950 text-center font-mono font-bold text-orange-400 text-xs py-0.5 rounded border border-neutral-800 focus:outline-none focus:border-orange-500 mx-0.5"
               />
               <button
                 id="sk1-bpm-up"
@@ -155,6 +162,13 @@ export const SK1Header: React.FC = () => {
                 className="w-5 h-5 flex items-center justify-center bg-neutral-800 hover:bg-neutral-700 rounded text-neutral-300 font-mono text-xs"
               >
                 +
+              </button>
+              <button
+                id="sk1-bpm-up-10"
+                onClick={() => setBpm(bpm + 10)}
+                className="w-7 h-5 flex items-center justify-center bg-neutral-800 hover:bg-neutral-700 rounded text-neutral-300 font-mono text-[10px]"
+              >
+                +10
               </button>
             </div>
 
