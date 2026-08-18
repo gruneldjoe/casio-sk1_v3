@@ -28,7 +28,7 @@ const RHYTHMS: { id: RhythmPatternId; label: string; bpm: number }[] = [
 ];
 
 export const DrumMachinePanel: React.FC = () => {
-  const { applyRhythmPreset, setBpm, setActiveTab } = useSequencerStore();
+  const { activeRhythm, applyRhythmPreset, setBpm, setActiveTab } = useSequencerStore();
 
   const handleTriggerDrum = (id: DrumSoundId) => {
     audioEngine.triggerDrum(id, 1.0);
@@ -121,21 +121,28 @@ export const DrumMachinePanel: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
-          {RHYTHMS.map((rhythm) => (
-            <button
-              key={rhythm.id}
-              id={`rhythm-preset-${rhythm.id}`}
-              onClick={() => handleSelectRhythm(rhythm)}
-              className="p-2.5 rounded-lg bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-left transition-all active:scale-95 group"
-            >
-              <span className="font-mono font-bold text-xs text-neutral-200 group-hover:text-orange-400 block">
-                {rhythm.label}
-              </span>
-              <span className="text-[10px] font-mono text-neutral-500 block">
-                {rhythm.bpm} BPM
-              </span>
-            </button>
-          ))}
+          {RHYTHMS.map((rhythm) => {
+            const isActive = rhythm.id === activeRhythm;
+            return (
+              <button
+                key={rhythm.id}
+                id={`rhythm-preset-${rhythm.id}`}
+                onClick={() => handleSelectRhythm(rhythm)}
+                className={`p-2.5 rounded-lg border text-left transition-all active:scale-95 group ${
+                  isActive 
+                    ? 'bg-orange-500/20 border-orange-500' 
+                    : 'bg-neutral-950 hover:bg-neutral-800 border-neutral-800'
+                }`}
+              >
+                <span className={`font-mono font-bold text-xs block ${isActive ? 'text-orange-400' : 'text-neutral-200 group-hover:text-orange-400'}`}>
+                  {rhythm.label}
+                </span>
+                <span className={`text-[10px] font-mono block ${isActive ? 'text-orange-400/80' : 'text-neutral-500'}`}>
+                  {rhythm.bpm} BPM
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

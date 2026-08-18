@@ -14,7 +14,31 @@ import { audioEngine } from './audio/AudioEngine';
 
 export default function App() {
   const { activeTab, setActiveTab, isPlaying, togglePlay, setBpm, applyRhythmPreset } = useSequencerStore();
-  const { applyBendPreset } = useBendingStore();
+  const { 
+    applyBendPreset,
+    bends,
+    masterBendingActive,
+    activeMomentaryBends,
+    getComputedDataBitmasks,
+    getComputedStutterWindow,
+    getComputedClockSag,
+  } = useBendingStore();
+
+  // Synchronize bending state to Web Audio AudioWorklet in real-time
+  React.useEffect(() => {
+    const { xorMask, andMask, orMask } = getComputedDataBitmasks();
+    const stutterWin = getComputedStutterWindow();
+    const clockSag = getComputedClockSag();
+    const targetSampleRate = 9387.5 * clockSag;
+
+    audioEngine.updateBendingParameters({
+      dataXorMask: masterBendingActive ? xorMask : 0,
+      dataAndMask: masterBendingActive ? andMask : 255,
+      dataOrMask: masterBendingActive ? orMask : 0,
+      stutterWindow: masterBendingActive ? stutterWin : 0,
+      targetSampleRate: masterBendingActive ? targetSampleRate : 9387.5,
+    });
+  }, [bends, masterBendingActive, activeMomentaryBends, getComputedDataBitmasks, getComputedStutterWindow, getComputedClockSag]);
 
   const handleLoadDemo = (type: 'toy_symphony' | 'synthwave' | 'bossa' | 'glitch_aleatron') => {
     if (type === 'toy_symphony') {

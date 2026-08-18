@@ -236,6 +236,7 @@ export interface SequencerStore {
   playSampleAudition: (midiNote?: number) => void;
 
   // Rhythms
+  activeRhythm: RhythmPatternId | null;
   applyRhythmPreset: (rhythmId: RhythmPatternId) => void;
 
   // Navigation
@@ -269,6 +270,8 @@ export const useSequencerStore = create<SequencerStore>((set, get) => ({
   isSampling: false,
   samplingLevel: 0,
   samplingProgress: 0,
+
+  activeRhythm: null,
 
   activeTab: 'sequencer',
 
@@ -415,7 +418,7 @@ export const useSequencerStore = create<SequencerStore>((set, get) => ({
 
     const updatedPattern = { ...pattern, tracks: updatedTracks };
     audioEngine.setPattern(updatedPattern);
-    set({ pattern: updatedPattern });
+    set({ pattern: updatedPattern, activeRhythm: null });
   },
 
   setStepNote: (trackId: string, stepIndex: number, note: string, midiNote: number) => {
@@ -701,7 +704,7 @@ export const useSequencerStore = create<SequencerStore>((set, get) => ({
 
     const updatedPattern = { ...pattern, tracks: updatedTracks };
     audioEngine.setPattern(updatedPattern);
-    set({ pattern: updatedPattern });
+    set({ pattern: updatedPattern, activeRhythm: rhythmId });
   },
 
   setActiveTab: (tab) => set({ activeTab: tab }),
